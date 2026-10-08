@@ -48,7 +48,7 @@ This repository is a small bench that does that:
 | CANable | USB-CAN adapter, the PC's access to the bus |
 | 2 × 120 Ω, jumper wires | Termination, and the short circuit for the bus-off test |
 
-The whole bench costs about as much as a textbook. It is not a substitute for a HIL rack, and it does not need to be: the faults it injects are the same ones. The test build of the firmware takes 6.8 kB of flash and 408 bytes of RAM.
+The whole bench costs about as much as a textbook. It is not a substitute for a HIL rack, and it does not need to be: the faults it injects are the same ones. The application takes 6.9 kB of flash, the bootloader 8 kB of the 16 kB reserved for it.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/bench-wiring-dark.svg">
@@ -139,7 +139,9 @@ There is one application slot, so there is no rollback to the previous version, 
 |---|---|
 | Tests | 94 passed, 16 skipped (15 wait for SAFE-03, 1 is the manual bus-off test on the board) |
 | Requirements with at least one test | 26 of 26 |
+| Branch coverage of the C code (application and bootloader) | 77 % |
 | Static analysis (cppcheck, warnings as errors in the build) | no findings |
+| Firmware images | bootloader and both application versions link for their part of flash, vector tables checked in CI |
 
 **Fault injection campaign.** A test says whether a limit was met once. The campaign injects each fault 30 times at different moments in the ECU's cycle and records every reaction time ([`results/campaign_sil.csv`](results/campaign_sil.csv)).
 
