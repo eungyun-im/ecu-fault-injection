@@ -12,12 +12,9 @@
 
 [Overview](#overview) · [Bench](#the-bench) · [Faults](#faults-and-safety-mechanisms) · [Two targets](#one-test-suite-two-targets) · [Results](#results) · [Layout](#repository-layout) · [Run](#running)
 
-</div>
-
 ---
 
 ## Overview
-
 
 <div align="center">
 
@@ -25,8 +22,7 @@
 
 <sub>NUCLEO-G431RB, the ECU of this bench. Photo: STMicroelectronics.</sub>
 
-
-
+</div>
 
 A safety mechanism is code that runs only when something has gone wrong. Normal operation never exercises it, so the only way to know that it works is to make the fault happen on purpose. ISO 26262-6 lists fault injection among the methods for verifying software for that reason.
 
