@@ -18,11 +18,14 @@
 
 ## Overview
 
+
 <div align="center">
 
 <img src="docs/img/nucleo-g431rb.jpg" alt="NUCLEO-G431RB, the board that plays the ECU" width="340">
 
 <sub>NUCLEO-G431RB, the ECU of this bench. Photo: STMicroelectronics.</sub>
+
+
 
 
 A safety mechanism is code that runs only when something has gone wrong. Normal operation never exercises it, so the only way to know that it works is to make the fault happen on purpose. ISO 26262-6 lists fault injection among the methods for verifying software for that reason.
