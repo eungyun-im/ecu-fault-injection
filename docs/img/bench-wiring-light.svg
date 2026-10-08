@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img">
+<rect x="0.0" y="0.0" width="760.0" height="400.0" rx="8" fill="#fcfcfb" fill-opacity="1.0"/>
+<text x="24.0" y="30.0" font-size="15" font-weight="600" text-anchor="start" fill="#0b0b0b">The bench: one ECU, one bus, one PC</text>
+<text x="24.0" y="50.0" font-size="12" font-weight="400" text-anchor="start" fill="#52514e">Drawing, not to scale. Pin positions are in docs/wiring.md</text>
+<rect x="24" y="76" width="190" height="300" rx="10" fill="#fcfcfb" stroke="#52514e" stroke-width="1.5"/>
+<line x1="34.0" y1="154.0" x2="204.0" y2="154.0" stroke="#e4e3df" stroke-width="1" stroke-linecap="round" stroke-dasharray="4 4"/>
+<rect x="99" y="68" width="40" height="22" rx="3" fill="#fcfcfb" stroke="#52514e" stroke-width="1.5"/>
+<text x="119.0" y="110.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">ST-LINK</text>
+<text x="119.0" y="126.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">USB: power, flashing</text>
+<rect x="36" y="168" width="12" height="196" rx="2" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+<rect x="190" y="168" width="12" height="196" rx="2" fill="#fcfcfb" stroke="#e4e3df" stroke-width="1"/>
+<rect x="92" y="226" width="54" height="54" rx="3" fill="#fcfcfb" stroke="#52514e" stroke-width="1.5"/>
+<text x="119.0" y="250.0" font-size="10" font-weight="600" text-anchor="middle" fill="#0b0b0b">STM32</text>
+<text x="119.0" y="264.0" font-size="10" font-weight="600" text-anchor="middle" fill="#0b0b0b">G431RB</text>
+<circle cx="84.0" cy="188.0" r="5" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<text x="94.0" y="192.0" font-size="10" font-weight="400" text-anchor="start" fill="#52514e">LD2: output enabled</text>
+<text x="119.0" y="308.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">FDCAN1</text>
+<text x="119.0" y="322.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">watchdog (IWDG)</text>
+<text x="119.0" y="336.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">reset flags</text>
+<text x="119.0" y="392.0" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0b">NUCLEO-G431RB (the ECU)</text>
+<rect x="320" y="150" width="110" height="150" rx="6" fill="#fcfcfb" stroke="#52514e" stroke-width="1.5"/>
+<text x="375.0" y="316.0" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0b">SN65HVD230</text>
+<text x="375.0" y="331.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">CAN transceiver</text>
+<path d="M196,174 L320,174" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="196.0" cy="174.0" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<text x="210.0" y="168.0" font-size="10" font-weight="400" text-anchor="start" fill="#52514e">PA12  TX</text>
+<text x="328.0" y="178.0" font-size="10" font-weight="400" text-anchor="start" fill="#0b0b0b">CTX</text>
+<path d="M196,208 L320,208" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="196.0" cy="208.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<text x="210.0" y="202.0" font-size="10" font-weight="400" text-anchor="start" fill="#52514e">PA11  RX</text>
+<text x="328.0" y="212.0" font-size="10" font-weight="400" text-anchor="start" fill="#0b0b0b">CRX</text>
+<path d="M196,242 L320,242" fill="none" stroke="#1baf7a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="196.0" cy="242.0" r="4" fill="#1baf7a" stroke="#fcfcfb" stroke-width="2"/>
+<text x="210.0" y="236.0" font-size="10" font-weight="400" text-anchor="start" fill="#52514e">3V3</text>
+<text x="328.0" y="246.0" font-size="10" font-weight="400" text-anchor="start" fill="#0b0b0b">3V3</text>
+<path d="M196,276 L320,276" fill="none" stroke="#52514e" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="196.0" cy="276.0" r="4" fill="#52514e" stroke="#fcfcfb" stroke-width="2"/>
+<text x="210.0" y="270.0" font-size="10" font-weight="400" text-anchor="start" fill="#52514e">GND</text>
+<text x="328.0" y="280.0" font-size="10" font-weight="400" text-anchor="start" fill="#0b0b0b">GND</text>
+<rect x="620" y="150" width="110" height="150" rx="6" fill="#fcfcfb" stroke="#52514e" stroke-width="1.5"/>
+<path d="M430,190 L620,190" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="422.0" y="194.0" font-size="10" font-weight="400" text-anchor="end" fill="#0b0b0b">CANH</text>
+<text x="628.0" y="194.0" font-size="10" font-weight="400" text-anchor="start" fill="#0b0b0b">CANH</text>
+<path d="M430,242 L620,242" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="422.0" y="246.0" font-size="10" font-weight="400" text-anchor="end" fill="#0b0b0b">CANL</text>
+<text x="628.0" y="246.0" font-size="10" font-weight="400" text-anchor="start" fill="#0b0b0b">CANL</text>
+<rect x="457" y="202" width="14" height="28" rx="2" fill="#fcfcfb" stroke="#52514e" stroke-width="1.5"/>
+<line x1="464.0" y1="190.0" x2="464.0" y2="202.0" stroke="#52514e" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="464.0" y1="230.0" x2="464.0" y2="242.0" stroke="#52514e" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="579" y="202" width="14" height="28" rx="2" fill="#fcfcfb" stroke="#52514e" stroke-width="1.5"/>
+<line x1="586.0" y1="190.0" x2="586.0" y2="202.0" stroke="#52514e" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="586.0" y1="230.0" x2="586.0" y2="242.0" stroke="#52514e" stroke-width="1.5" stroke-linecap="round"/>
+<text x="525.0" y="220.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">120 Ω at each end</text>
+<text x="525.0" y="178.0" font-size="11" font-weight="600" text-anchor="middle" fill="#0b0b0b">CAN bus, 500 kbit/s</text>
+<text x="675.0" y="316.0" font-size="12" font-weight="600" text-anchor="middle" fill="#0b0b0b">CANable</text>
+<text x="675.0" y="331.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">USB-CAN adapter</text>
+<text x="675.0" y="276.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">USB to the PC:</text>
+<text x="675.0" y="290.0" font-size="10" font-weight="400" text-anchor="middle" fill="#52514e">pytest, python-can</text>
+<path d="M620,276 L430,276" fill="none" stroke="#52514e" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="612.0" y="270.0" font-size="10" font-weight="400" text-anchor="end" fill="#52514e">GND</text>
+<text x="274.0" y="96.0" font-size="11" font-weight="400" text-anchor="start" fill="#52514e">A jumper wire across CANH and CANL is the bus-off test.</text>
+</svg>

@@ -1,0 +1,66 @@
+name: ci
+on: [push, pull_request]
+
+jobs:
+  sil:
+    name: Tests, software in the loop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt gcovr
+      - run: sudo apt-get update && sudo apt-get install -y cppcheck
+      - name: Static analysis of the ECU code
+        run: >
+          cppcheck --error-exitcode=1 --enable=warning,style,performance,portability
+          --std=c99 --inline-suppr --suppress=missingIncludeSystem
+          -DECU_FAULT_INJECTION=1 -Ifirmware/lib/ecu firmware/lib/ecu
+      - name: Test suite
+        run: pytest -v -rs --junitxml=build/junit.xml
+        env:
+          ECU_COVERAGE: "1"
+      - name: Coverage of the ECU code
+        run: |
+          gcovr --root . --filter firmware/lib/ecu --txt-metric branch build | tee build/coverage.txt
+          { echo '### Branch coverage of the ECU code'; echo '```'; cat build/coverage.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Traceability
+        run: python -m tools.trace --check
+      - name: Fault injection campaign
+        run: |
+          python -m bench.campaign --runs 30 --out build/campaign_sil.csv | tee build/campaign.md
+          { echo '### Fault injection campaign (software in the loop)'; head -n 6 build/campaign.md; } >> "$GITHUB_STEP_SUMMARY"
+          diff <(cut -d, -f1-7 results/campaign_sil.csv) <(cut -d, -f1-7 build/campaign_sil.csv)
+
+  hil-path:
+    name: Board side of the bench, against the ECU model
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      # Real time on a shared runner: the wide allowance keeps this job about the
+      # code path, not about timing.
+      - run: pytest -v --target hil --virtual-ecu --timing-slack-ms 100
+
+  firmware:
+    name: Firmware build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: platformio-${{ hashFiles('firmware/platformio.ini') }}
+      - run: pip install platformio
+      - run: pio run -d firmware -e test -e release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: firmware/.pio/build/*/firmware.*

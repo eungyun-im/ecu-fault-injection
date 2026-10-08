@@ -1,0 +1,5 @@
+pytest
+python-can
+can-isotp
+udsoncan
+pyserial

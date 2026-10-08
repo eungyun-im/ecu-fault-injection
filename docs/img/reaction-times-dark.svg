@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 322" width="760" height="322" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img">
+<rect x="0.0" y="0.0" width="760.0" height="322.0" rx="8" fill="#1a1a19" fill-opacity="1.0"/>
+<text x="24.0" y="30.0" font-size="15" font-weight="600" text-anchor="start" fill="#ffffff">Reaction time to each injected fault, as a share of the allowed time</text>
+<text x="24.0" y="50.0" font-size="12" font-weight="400" text-anchor="start" fill="#c3c2b7">Range and median over the injections of a campaign. The line at 100 % is the requirement</text>
+<line x1="250.0" y1="80.0" x2="250.0" y2="272.0" stroke="#33332f" stroke-width="1" stroke-linecap="round"/>
+<text x="250.0" y="290.0" font-size="11" font-weight="400" text-anchor="middle" fill="#c3c2b7">0 %</text>
+<line x1="380.0" y1="80.0" x2="380.0" y2="272.0" stroke="#33332f" stroke-width="1" stroke-linecap="round"/>
+<text x="380.0" y="290.0" font-size="11" font-weight="400" text-anchor="middle" fill="#c3c2b7">50 %</text>
+<line x1="510.0" y1="80.0" x2="510.0" y2="272.0" stroke="#c3c2b7" stroke-width="1" stroke-linecap="round"/>
+<text x="510.0" y="290.0" font-size="11" font-weight="400" text-anchor="middle" fill="#c3c2b7">100 %</text>
+<text x="24.0" y="100.0" font-size="13" font-weight="600" text-anchor="start" fill="#ffffff">Command lost</text>
+<text x="24.0" y="116.0" font-size="10" font-weight="400" text-anchor="start" fill="#c3c2b7">last command to safe state</text>
+<line x1="471.0" y1="96.0" x2="471.0" y2="96.0" stroke="#3987e5" stroke-width="4" stroke-linecap="round"/>
+<circle cx="471.0" cy="96.0" r="5" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<text x="528.0" y="100.0" font-size="11" font-weight="400" text-anchor="start" fill="#c3c2b7">51 ms of 60 ms  (n = 30)</text>
+<text x="24.0" y="148.0" font-size="13" font-weight="600" text-anchor="start" fill="#ffffff">Command CRC wrong</text>
+<text x="24.0" y="164.0" font-size="10" font-weight="400" text-anchor="start" fill="#c3c2b7">first bad frame to safe state</text>
+<line x1="354.0" y1="144.0" x2="354.0" y2="144.0" stroke="#3987e5" stroke-width="4" stroke-linecap="round"/>
+<circle cx="354.0" cy="144.0" r="5" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<text x="528.0" y="148.0" font-size="11" font-weight="400" text-anchor="start" fill="#c3c2b7">20 ms of 50 ms  (n = 30)</text>
+<text x="24.0" y="196.0" font-size="13" font-weight="600" text-anchor="start" fill="#ffffff">Command out of range</text>
+<text x="24.0" y="212.0" font-size="10" font-weight="400" text-anchor="start" fill="#c3c2b7">first bad frame to safe state</text>
+<line x1="354.0" y1="192.0" x2="354.0" y2="192.0" stroke="#3987e5" stroke-width="4" stroke-linecap="round"/>
+<circle cx="354.0" cy="192.0" r="5" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<text x="528.0" y="196.0" font-size="11" font-weight="400" text-anchor="start" fill="#c3c2b7">20 ms of 50 ms  (n = 30)</text>
+<text x="24.0" y="244.0" font-size="13" font-weight="600" text-anchor="start" fill="#ffffff">CPU stuck</text>
+<text x="24.0" y="260.0" font-size="10" font-weight="400" text-anchor="start" fill="#c3c2b7">last status to first status after restart</text>
+<line x1="303.0" y1="240.0" x2="307.7" y2="240.0" stroke="#3987e5" stroke-width="4" stroke-linecap="round"/>
+<circle cx="305.9" cy="240.0" r="5" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<text x="528.0" y="244.0" font-size="11" font-weight="400" text-anchor="start" fill="#c3c2b7">102 to 111 ms of 500 ms  (n = 30)</text>
+<circle cx="29.0" cy="302.0" r="5" fill="#3987e5" stroke="#1a1a19" stroke-width="2"/>
+<text x="40.0" y="306.0" font-size="11" font-weight="400" text-anchor="start" fill="#c3c2b7">Software in the loop (simulated time)</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" role="img">
+<rect x="0.0" y="0.0" width="760.0" height="330.0" rx="8" fill="#fcfcfb" fill-opacity="1.0"/>
+<text x="24.0" y="30.0" font-size="15" font-weight="600" text-anchor="start" fill="#0b0b0b">Two injected faults, one run (software in the loop)</text>
+<text x="24.0" y="50.0" font-size="12" font-weight="400" text-anchor="start" fill="#52514e">The output is switched off at once and comes back after 500 ms of valid commands</text>
+<text x="56.0" y="98.0" font-size="11" font-weight="400" text-anchor="end" fill="#52514e">State</text>
+<rect x="67.7" y="84.0" width="105.9" height="20.0" rx="3" fill="#2a78d6" fill-opacity="1.0"/>
+<text x="120.6" y="98.0" font-size="10" font-weight="600" text-anchor="middle" fill="#ffffff">NORMAL</text>
+<rect x="175.5" y="84.0" width="169.0" height="20.0" rx="3" fill="#eb6834" fill-opacity="1.0"/>
+<text x="260.1" y="98.0" font-size="10" font-weight="600" text-anchor="middle" fill="#ffffff">SAFE</text>
+<rect x="346.6" y="84.0" width="128.4" height="20.0" rx="3" fill="#2a78d6" fill-opacity="1.0"/>
+<text x="410.8" y="98.0" font-size="10" font-weight="600" text-anchor="middle" fill="#ffffff">NORMAL</text>
+<rect x="476.9" y="84.0" width="165.7" height="20.0" rx="3" fill="#e4e3df" fill-opacity="1.0"/>
+<text x="559.8" y="98.0" font-size="10" font-weight="600" text-anchor="middle" fill="#0b0b0b">INIT</text>
+<rect x="644.6" y="84.0" width="90.4" height="20.0" rx="3" fill="#2a78d6" fill-opacity="1.0"/>
+<text x="689.8" y="98.0" font-size="10" font-weight="600" text-anchor="middle" fill="#ffffff">NORMAL</text>
+<line x1="64.0" y1="280.0" x2="736.0" y2="280.0" stroke="#e4e3df" stroke-width="1" stroke-linecap="round"/>
+<text x="56.0" y="284.0" font-size="11" font-weight="400" text-anchor="end" fill="#52514e">0 %</text>
+<line x1="64.0" y1="206.0" x2="736.0" y2="206.0" stroke="#e4e3df" stroke-width="1" stroke-linecap="round"/>
+<text x="56.0" y="210.0" font-size="11" font-weight="400" text-anchor="end" fill="#52514e">50 %</text>
+<line x1="64.0" y1="132.0" x2="736.0" y2="132.0" stroke="#e4e3df" stroke-width="1" stroke-linecap="round"/>
+<text x="56.0" y="136.0" font-size="11" font-weight="400" text-anchor="end" fill="#52514e">100 %</text>
+<polyline points="66.7,220.8 70.0,220.8 73.4,220.8 76.8,220.8 80.1,220.8 83.5,220.8 86.8,220.8 90.2,220.8 93.6,220.8 96.9,220.8 100.3,220.8 103.6,220.8 107.0,220.8 110.4,220.8 113.7,220.8 117.1,220.8 120.4,220.8 120.4,161.6 123.8,161.6 127.2,161.6 130.5,161.6 133.9,161.6 137.2,161.6 140.6,161.6 144.0,161.6 147.3,161.6 150.7,161.6 154.0,161.6 157.4,161.6 160.8,161.6 164.1,161.6 167.5,161.6 170.8,161.6 174.2,161.6 174.5,161.6 174.5,280.0 177.6,280.0 180.9,280.0 184.3,280.0 187.6,280.0 191.0,280.0 194.4,280.0 197.7,280.0 201.1,280.0 204.4,280.0 207.8,280.0 211.2,280.0 214.5,280.0 217.9,280.0 221.2,280.0 224.6,280.0 228.0,280.0 231.3,280.0 234.7,280.0 238.0,280.0 241.4,280.0 244.8,280.0 248.1,280.0 251.5,280.0 254.8,280.0 258.2,280.0 261.6,280.0 264.9,280.0 268.3,280.0 271.6,280.0 275.0,280.0 278.4,280.0 281.7,280.0 285.1,280.0 288.4,280.0 291.8,280.0 295.2,280.0 298.5,280.0 301.9,280.0 305.2,280.0 308.6,280.0 312.0,280.0 315.3,280.0 318.7,280.0 322.0,280.0 325.4,280.0 328.8,280.0 332.1,280.0 335.5,280.0 338.8,280.0 342.2,280.0 345.6,280.0 345.6,161.6 348.9,161.6 352.3,161.6 355.6,161.6 359.0,161.6 362.4,161.6 365.7,161.6 369.1,161.6 372.4,161.6 375.8,161.6 379.2,161.6 382.5,161.6 385.9,161.6 389.2,161.6 392.6,161.6 396.0,161.6 399.3,161.6 402.7,161.6 406.0,161.6 409.4,161.6 412.8,161.6 416.1,161.6 419.5,161.6 422.8,161.6 426.2,161.6 429.6,161.6 432.9,161.6 436.3,161.6 439.6,161.6 475.9,161.6 475.9,280.0 479.0,280.0 482.3,280.0 485.7,280.0 489.0,280.0 492.4,280.0 495.8,280.0 499.1,280.0 502.5,280.0 505.8,280.0 509.2,280.0 512.6,280.0 515.9,280.0 519.3,280.0 522.6,280.0 526.0,280.0 529.4,280.0 532.7,280.0 536.1,280.0 539.4,280.0 542.8,280.0 546.2,280.0 549.5,280.0 552.9,280.0 556.2,280.0 559.6,280.0 563.0,280.0 566.3,280.0 569.7,280.0 573.0,280.0 576.4,280.0 579.8,280.0 583.1,280.0 586.5,280.0 589.8,280.0 593.2,280.0 596.6,280.0 599.9,280.0 603.3,280.0 606.6,280.0 610.0,280.0 613.4,280.0 616.7,280.0 620.1,280.0 623.4,280.0 626.8,280.0 630.2,280.0 633.5,280.0 636.9,280.0 640.2,280.0 643.6,280.0 643.6,161.6 647.0,161.6 650.3,161.6 653.7,161.6 657.0,161.6 660.4,161.6 663.8,161.6 667.1,161.6 670.5,161.6 673.8,161.6 677.2,161.6 680.6,161.6 683.9,161.6 687.3,161.6 690.6,161.6 694.0,161.6 697.4,161.6 700.7,161.6 704.1,161.6 707.4,161.6 710.8,161.6 714.2,161.6 717.5,161.6 720.9,161.6 724.2,161.6 727.6,161.6 731.0,161.6 734.3,161.6 736.0,161.6" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="127.1" y="153.6" font-size="11" font-weight="400" text-anchor="start" fill="#52514e">applied demand</text>
+<line x1="164.8" y1="108.0" x2="164.8" y2="280.0" stroke="#52514e" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4"/>
+<text x="170.8" y="246.0" font-size="11" font-weight="600" text-anchor="start" fill="#0b0b0b">3 commands with a wrong CRC</text>
+<text x="170.8" y="260.0" font-size="10" font-weight="400" text-anchor="start" fill="#52514e">injected at 300 ms</text>
+<line x1="433.6" y1="108.0" x2="433.6" y2="280.0" stroke="#52514e" stroke-width="1" stroke-linecap="round" stroke-dasharray="3 4"/>
+<text x="439.6" y="246.0" font-size="11" font-weight="600" text-anchor="start" fill="#0b0b0b">CPU halted</text>
+<text x="439.6" y="260.0" font-size="10" font-weight="400" text-anchor="start" fill="#52514e">injected at 1100 ms</text>
+<text x="64.0" y="298.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">0 ms</text>
+<text x="232.0" y="298.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">500 ms</text>
+<text x="400.0" y="298.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">1000 ms</text>
+<text x="568.0" y="298.0" font-size="11" font-weight="400" text-anchor="middle" fill="#52514e">1500 ms</text>
+<text x="736.0" y="298.0" font-size="11" font-weight="400" text-anchor="end" fill="#52514e">2000 ms</text>
+</svg>
