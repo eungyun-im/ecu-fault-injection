@@ -1,5 +1,9 @@
 <div align="center">
 
+<img src="docs/img/nucleo-g431rb.jpg" alt="NUCLEO-G431RB, the board that plays the ECU" width="340">
+
+<sub>NUCLEO-G431RB, the ECU of this bench. Photo: STMicroelectronics.</sub>
+
 # ecu-fault-injection
 
 **Do the safety mechanisms of an ECU work when the fault really happens?<br>A fault injection bench for an STM32 ECU, with one test suite for simulation and hardware.**
@@ -37,11 +41,6 @@ This repository is a small bench that does that:
 
 ## The bench
 
-<table>
-<tr>
-<td width="290"><img src="docs/img/nucleo-g431rb.jpg" alt="NUCLEO-G431RB board" width="270"></td>
-<td>
-
 | Part | Role |
 |---|---|
 | NUCLEO-G431RB | The ECU: STM32G431 with FDCAN, independent watchdog and an on-board debugger |
@@ -49,13 +48,7 @@ This repository is a small bench that does that:
 | CANable | USB-CAN adapter, the PC's access to the bus |
 | 2 × 120 Ω, jumper wires | Termination, and the short circuit for the bus-off test |
 
-The whole bench costs about as much as a textbook. It is not a substitute for a HIL rack, and it does not need to be: the faults it injects are the same ones.
-
-<sub>Board photo: STMicroelectronics.</sub>
-
-</td>
-</tr>
-</table>
+The whole bench costs about as much as a textbook. It is not a substitute for a HIL rack, and it does not need to be: the faults it injects are the same ones. The test build of the firmware takes 6.8 kB of flash and 408 bytes of RAM.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/bench-wiring-dark.svg">
