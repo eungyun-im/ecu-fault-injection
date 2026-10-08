@@ -1,10 +1,4 @@
-<div align="center">
-
-<img src="docs/img/nucleo-g431rb.jpg" alt="NUCLEO-G431RB, the board that plays the ECU" width="340">
-
-<sub>NUCLEO-G431RB, the ECU of this bench. Photo: STMicroelectronics.</sub>
-
-# ecu-fault-injection
+# ECU-Fault-injection
 
 **Do the safety mechanisms of an ECU work when the fault really happens?<br>A fault injection bench for an STM32 ECU, with one test suite for simulation and hardware.**
 
@@ -23,6 +17,13 @@
 ---
 
 ## Overview
+
+<div align="center">
+
+<img src="docs/img/nucleo-g431rb.jpg" alt="NUCLEO-G431RB, the board that plays the ECU" width="340">
+
+<sub>NUCLEO-G431RB, the ECU of this bench. Photo: STMicroelectronics.</sub>
+
 
 A safety mechanism is code that runs only when something has gone wrong. Normal operation never exercises it, so the only way to know that it works is to make the fault happen on purpose. ISO 26262-6 lists fault injection among the methods for verifying software for that reason.
 
