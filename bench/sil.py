@@ -12,6 +12,7 @@ from udsoncan.exceptions import TimeoutException
 
 from bench import messages as m
 from bench.base import ISOTP_PARAMS, Bench
+from bench.device_model import DeviceModel
 from bench.ecu_model import EcuModel
 
 
@@ -67,10 +68,12 @@ class SimConnection(BaseConnection):
 class SilBench(Bench):
     is_sil = True
 
-    def __init__(self, variant="test"):
+    def __init__(self, variant="test", bootloader=False):
+        """variant: which build of the application. bootloader: a whole ECU with an
+        empty application slot, as it leaves the flashing station."""
         super().__init__()
         self.now_ms = 0
-        self.ecu = EcuModel(self._from_ecu, variant)
+        self.ecu = DeviceModel(self._from_ecu) if bootloader else EcuModel(self._from_ecu, variant)
         self._make_tester(SimConnection(self))
 
     def _from_ecu(self, can_id, data):

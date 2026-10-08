@@ -74,13 +74,22 @@ static uint16_t session_control(uds_t *uds, const uint8_t *request, uint16_t len
     {
         result = negative(response, SID_SESSION_CONTROL, NRC_INCORRECT_LENGTH);
     }
-    else if ((request[1] != UDS_SESSION_DEFAULT) && (request[1] != UDS_SESSION_EXTENDED))
+    else if ((request[1] != UDS_SESSION_DEFAULT) && (request[1] != UDS_SESSION_EXTENDED) &&
+             ((request[1] != UDS_SESSION_PROGRAMMING) || (ECU_BOOTLOADER == 0)))
     {
         result = negative(response, SID_SESSION_CONTROL, NRC_SUB_FUNCTION_NOT_SUPPORTED);
     }
     else
     {
-        uds->session = request[1];
+        if (request[1] == UDS_SESSION_PROGRAMMING)
+        {
+            /* Programming is the bootloader's job. Answer, then restart into it. */
+            ecu_schedule(ACTION_BOOT, 0U);
+        }
+        else
+        {
+            uds->session = request[1];
+        }
         response[0] = SID_SESSION_CONTROL + POSITIVE_OFFSET;
         response[1] = request[1];
         /* P2 in 1 ms units, P2* in 10 ms units */
@@ -150,6 +159,10 @@ static uint8_t build_info(void)
     if (e2e_counter_check_implemented())
     {
         info |= BUILD_COUNTER_CHECK;
+    }
+    if (ECU_BOOTLOADER != 0)
+    {
+        info |= BUILD_BOOTLOADER;
     }
 
     return info;

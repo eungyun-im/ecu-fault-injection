@@ -91,7 +91,7 @@ def test_segmented_request_is_received(bench):
 def test_request_that_is_too_long_is_refused_by_flow_control(bench):
     bench.advance(20)
     start = bench.now_ms
-    bench.send(m.DIAG_REQUEST_ID, bytes([0x10, 0x64, 0x3E, 0, 0, 0, 0, 0]))  # first frame, 100 bytes
+    bench.send(m.DIAG_REQUEST_ID, bytes([0x11, 0x00, 0x3E, 0, 0, 0, 0, 0]))  # first frame, 256 bytes
     bench.advance(50)
     replies = bench.frames_of(m.DIAG_RESPONSE_ID, start)
     assert [frame.data[0] for frame in replies] == [0x32]  # flow control: overflow

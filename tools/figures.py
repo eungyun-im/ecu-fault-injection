@@ -126,8 +126,7 @@ def run_scenario():
     """One software-in-the-loop run with two injected faults. Returns (statuses, events)."""
     from bench.sil import SilBench
 
-    for variant in ecu_lib.VARIANTS:
-        ecu_lib.build(variant)
+    ecu_lib.build_all()
     bench = SilBench().prepare()
     start = bench.now_ms
     events = []

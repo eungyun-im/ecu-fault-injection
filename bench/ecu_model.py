@@ -44,6 +44,8 @@ class EcuModel:
         self.bus_off = False
         self.resets = []
         self._short_until_ms = 0
+        #: Set by a model that puts a bootloader in front: called instead of restarting here.
+        self.on_reset = None
         self.power_on(0)
 
     # Life cycle
@@ -54,6 +56,10 @@ class EcuModel:
         self.bus_off = False
         self._short_until_ms = 0
         self._start(now_ms, m.RESET_POWER_ON)
+
+    def start(self, now_ms, cause):
+        """Start the application, as the bootloader does after a reset."""
+        self._start(now_ms, cause)
 
     def _start(self, now_ms, cause):
         self.now_ms = now_ms
@@ -93,9 +99,15 @@ class EcuModel:
             self._held = []
             self._lib.ecu_step(now_ms)
         if now_ms - self._last_feed_ms > m.WATCHDOG_TIMEOUT_MS:
-            self._start(now_ms, m.RESET_WATCHDOG)
+            self._restart(m.RESET_WATCHDOG)
         elif self._reset_requested:
-            self._start(now_ms, m.RESET_SOFTWARE)
+            self._restart(m.RESET_SOFTWARE)
+
+    def _restart(self, cause):
+        if self.on_reset is not None:
+            self.on_reset(cause)
+        else:
+            self._start(self.now_ms, cause)
 
     def short_bus(self, duration_ms):
         """Short circuit on the bus: the controller goes bus-off and cannot recover until it ends."""

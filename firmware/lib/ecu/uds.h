@@ -7,10 +7,9 @@
 
 #include <stdint.h>
 
-#define UDS_RESPONSE_MAX (48U)
+#include "can.h"
 
-#define UDS_SESSION_DEFAULT (0x01U)
-#define UDS_SESSION_EXTENDED (0x03U)
+#define UDS_RESPONSE_MAX (48U)
 
 /* Fault injection routines (RoutineControl 0x31 01), test builds only */
 #define ROUTINE_HALT_CPU (0xF001U)
@@ -22,6 +21,7 @@
 #define ACTION_RESET (1U)
 #define ACTION_HALT (2U)
 #define ACTION_BLOCK (3U)
+#define ACTION_BOOT (4U)
 
 typedef struct
 {

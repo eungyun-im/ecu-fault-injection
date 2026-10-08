@@ -46,9 +46,23 @@ Limits are stated at the CAN bus. How they are measured, and with what uncertain
 | DIAG-05 | ECUReset `0x11 01` restarts the ECU after the positive response. |
 | DIAG-06 | The fault injection routines of RoutineControl `0x31` exist only in a test build and are accepted only in the extended session. A release build answers them with NRC `0x31`. |
 
+## Firmware update
+
+Details and the reasoning behind the order of the steps: [`docs/update.md`](../docs/update.md).
+
+| ID | Requirement |
+|---|---|
+| UPD-01 | At every start the bootloader checks the application: the info page must be valid and the CRC-32 of the application slot must match it. Only then is the application started. Otherwise the bootloader stays active and sends BootStatus every 100 ms. |
+| UPD-02 | An update that is interrupted at any point, by a silent tester or by a reset, leaves no application that could be started. The update can be repeated and then succeeds. |
+| UPD-03 | A new application is activated only after the content of the flash has been read back and its CRC-32 matches the one announced by the tester. Otherwise the request is answered with NRC `0x72` and nothing is activated. Flash is programmed only after it was erased. |
+| UPD-04 | The update services are accepted only in their order. A transfer block with an unexpected counter is refused with NRC `0x73`, a service without its predecessor with NRC `0x24`, more data than announced with NRC `0x31`. |
+| UPD-05 | A version lower than the installed one, an address other than the application slot and a size that does not fit are refused before anything is erased. The installed application keeps running after the next reset. |
+| UPD-06 | The update services are available only in the programming session. A running application enters it by restarting into the bootloader. Erasing is announced with response pending (NRC `0x78`). Without a request for 5 s the bootloader leaves the session and drops the download. |
+
 ## Scope
 
 - One ECU and one bus. The actuator is the board LED.
 - End-to-end protection is modeled on AUTOSAR E2E Profile 1 (CRC-8 SAE J1850, 4-bit counter, data ID in the CRC). It is not a compliant implementation.
 - "Survives a reset" means the backup domain of the MCU. A power cycle clears it.
+- The update has no authentication: no SecurityAccess and no signature. A CRC detects damage, not a wrong sender.
 - No ASIL is claimed. The numbers (50 ms, 500 ms, 3 frames) are design values of this project, not derived from a hazard analysis.

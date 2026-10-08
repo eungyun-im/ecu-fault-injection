@@ -16,14 +16,16 @@ jobs:
         run: >
           cppcheck --error-exitcode=1 --enable=warning,style,performance,portability
           --std=c99 --inline-suppr --suppress=missingIncludeSystem
-          -DECU_FAULT_INJECTION=1 -Ifirmware/lib/ecu firmware/lib/ecu
+          -DECU_FAULT_INJECTION=1 -DECU_BOOTLOADER=1 -DBOOT_TEST_BUILD=1
+          -Ifirmware/lib/common -Ifirmware/lib/ecu -Ifirmware/lib/boot
+          firmware/lib/common firmware/lib/ecu firmware/lib/boot
       - name: Test suite
         run: pytest -v -rs --junitxml=build/junit.xml
         env:
           ECU_COVERAGE: "1"
       - name: Coverage of the ECU code
         run: |
-          gcovr --root . --filter firmware/lib/ecu --txt-metric branch build | tee build/coverage.txt
+          gcovr --root . --filter firmware/lib --merge-mode-functions=separate --txt-metric branch build | tee build/coverage.txt
           { echo '### Branch coverage of the ECU code'; echo '```'; cat build/coverage.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Traceability
         run: python -m tools.trace --check
@@ -59,7 +61,9 @@ jobs:
           path: ~/.platformio
           key: platformio-${{ hashFiles('firmware/platformio.ini') }}
       - run: pip install platformio
-      - run: pio run -d firmware -e test -e release
+      - run: pio run -d firmware -e test -e release -e bootloader -e app_v100 -e app_v110
+      - name: Layout of the images
+        run: python -m tools.check_images
       - uses: actions/upload-artifact@v4
         with:
           name: firmware

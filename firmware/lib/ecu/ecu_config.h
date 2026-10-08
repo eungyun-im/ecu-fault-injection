@@ -3,11 +3,11 @@
 #ifndef ECU_CONFIG_H
 #define ECU_CONFIG_H
 
+#include "can.h"
+
 /* CAN identifiers */
 #define CAN_ID_COMMAND (0x200U)
 #define CAN_ID_STATUS (0x210U)
-#define CAN_ID_DIAG_REQUEST (0x7E0U)
-#define CAN_ID_DIAG_RESPONSE (0x7E8U)
 
 /* ActuatorCommand, received every 10 ms */
 #define COMMAND_TIMEOUT_MS (50U)
@@ -33,22 +33,33 @@
 #define FAULT_COUNT (7U)
 
 /* Diagnostics */
-#define UDS_S3_SERVER_MS (5000U)
-#define UDS_P2_SERVER_MAX_MS (50U)
-#define UDS_P2_STAR_SERVER_MAX_MS (5000U)
 #define ACTION_DELAY_MS (20U)
 
+/* The build can set the version, so two applications can be made from one source. */
+#ifndef SW_VERSION_MAJOR
 #define SW_VERSION_MAJOR (1U)
+#endif
+#ifndef SW_VERSION_MINOR
 #define SW_VERSION_MINOR (0U)
+#endif
+#ifndef SW_VERSION_PATCH
 #define SW_VERSION_PATCH (0U)
+#endif
 
 /* Build information, DID 0x0203 */
 #define BUILD_FAULT_INJECTION (0x01U)
 #define BUILD_COUNTER_CHECK (0x02U)
+#define BUILD_BOOTLOADER (0x04U)
 
 /* Fault injection routines exist only in a test build. A release build must not contain them. */
 #ifndef ECU_FAULT_INJECTION
 #define ECU_FAULT_INJECTION 0
+#endif
+
+/* Set when the application is installed behind the bootloader. It then accepts
+ * the programming session, which restarts the ECU into the bootloader. */
+#ifndef ECU_BOOTLOADER
+#define ECU_BOOTLOADER 0
 #endif
 
 #endif /* ECU_CONFIG_H */

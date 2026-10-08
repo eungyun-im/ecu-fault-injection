@@ -10,7 +10,7 @@
 ![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white)
 ![ISO 26262](https://img.shields.io/badge/ISO_26262-reference-555555?style=flat-square)
 
-[Overview](#overview) · [Bench](#the-bench) · [Faults](#faults-and-safety-mechanisms) · [Two targets](#one-test-suite-two-targets) · [Results](#results) · [Layout](#repository-layout) · [Run](#running)
+[Overview](#overview) · [Bench](#the-bench) · [Faults](#faults-and-safety-mechanisms) · [Two targets](#one-test-suite-two-targets) · [Update](#firmware-update-over-can) · [Results](#results) · [Layout](#repository-layout) · [Run](#running)
 
 ---
 
@@ -32,7 +32,7 @@ This repository is a small bench that does that:
 - A **bench** on the PC plays the rest of the vehicle. It sends the command, corrupts it, withholds it, stops the ECU's CPU, and measures how long the ECU takes to reach its safe state.
 - The same tests run on two targets: the ECU code compiled for the PC in simulated time, and the board on a real CAN bus.
 
-> **Status:** the ECU code, the bench, 76 tests and the campaign tool are implemented. Everything runs on the software-in-the-loop target in CI, and the firmware builds for the board. **The run on the board has not been done yet**, so every number below comes from simulation. The alive counter check (SAFE-03) is open.
+> **Status:** the ECU code, a bootloader for updates over CAN, the bench, 110 tests and the campaign tool are implemented. Everything runs on the software-in-the-loop target in CI, and the firmware builds for the board. **The run on the board has not been done yet**, so every number below comes from simulation. The alive counter check (SAFE-03) is open.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/scenario-dark.svg">
@@ -72,7 +72,7 @@ Every fault ends in the same place: the **safe state**, with the output off. The
 | SAFE-09 | CAN bus-off | A jumper wire across CANH and CANL | Bus-off recovery | Back on the bus within 1 s |
 | SAFE-10 | Task runs late | A diagnostic routine holds the task up | Deadline monitoring, 5 ms | Safe state, no restart |
 
-All 20 requirements: [`requirements/requirements.md`](requirements/requirements.md). Message layouts, DTCs and routines: [`docs/can_matrix.md`](docs/can_matrix.md). Which test verifies which requirement, and on which target: [`docs/traceability.md`](docs/traceability.md), generated and checked in CI.
+All 26 requirements: [`requirements/requirements.md`](requirements/requirements.md). Message layouts, DTCs and routines: [`docs/can_matrix.md`](docs/can_matrix.md). Which test verifies which requirement, and on which target: [`docs/traceability.md`](docs/traceability.md), generated and checked in CI.
 
 ```mermaid
 stateDiagram-v2
@@ -93,7 +93,7 @@ stateDiagram-v2
 
 ```mermaid
 flowchart LR
-    T[76 tests<br>pytest] --> B[Bench interface<br>send, advance, wait_for,<br>diagnostics, inject]
+    T[110 tests<br>pytest] --> B[Bench interface<br>send, advance, wait_for,<br>diagnostics, inject]
     B --> S[Software in the loop<br>ECU code compiled for the PC<br>simulated time]
     B --> H[Hardware in the loop<br>the board on a CAN bus<br>real time]
     C[firmware/lib/ecu<br>plain C99, no hardware access] --> S
@@ -105,12 +105,31 @@ The ECU code in [`firmware/lib/ecu`](firmware/lib/ecu) touches no hardware. It c
 | | Software in the loop | Hardware in the loop |
 |---|---|---|
 | Shows | The logic reacts correctly to each event | The event really happens, and how long everything takes |
-| Time | Simulated, repeatable, 76 tests in 3 s | Real |
+| Time | Simulated, repeatable, 110 tests in 7 s | Real |
 | Runs | In CI, on every push | On the bench |
 
 What only the board can answer is listed in [`docs/measurement.md`](docs/measurement.md): whether the real watchdog fires and when, how long a restart takes, whether the fault memory survives it, whether the internal oscillator is good enough for 500 kbit/s.
 
 Diagnostics use the standard open-source stack on the PC side ([udsoncan](https://github.com/pylessard/python-udsoncan), [can-isotp](https://github.com/pylessard/python-can-isotp), [python-can](https://github.com/hardbyte/python-can)) and a small ISO-TP and UDS server written in C on the ECU side.
+
+## Firmware update over CAN
+
+An over-the-air update ends with the gateway writing the image into the ECU over the vehicle network. That last step is where a failure leaves a control unit that does not start, and it is the step this bench covers. The bench plays the gateway. No internet connection is involved.
+
+A bootloader in the first 16 kB of flash checks the application at every start and replaces it with UDS services (`0x34`, `0x36`, `0x37`). The faults are injected into the update itself:
+
+| Fault | Expected |
+|---|---|
+| The update stops midway, or the ECU is reset between two blocks | No application is started. The bootloader waits, and a repeated update succeeds |
+| One bit of the image is damaged on the way | The CRC check after the transfer fails. The image is not activated |
+| A bit of the installed application changes in flash later | The next start does not run it |
+| A block is lost, repeated or out of order | Refused. The expected block is still accepted |
+| An older version, a wrong address, an image that does not fit | Refused before anything is erased. The installed application keeps running |
+| The tester goes silent | The bootloader drops the download after 5 s |
+
+The design that makes this hold is an order: the page that says "there is a valid application" is erased first and written last. Whatever happens in between, the ECU knows it has nothing to start.
+
+There is one application slot, so there is no rollback to the previous version, and there is no authentication of the image. Both limits, the sequence and the flash layout: [`docs/update.md`](docs/update.md).
 
 ## Results
 
@@ -118,8 +137,8 @@ Diagnostics use the standard open-source stack on the PC side ([udsoncan](https:
 
 | | |
 |---|---|
-| Tests | 60 passed, 16 skipped (15 wait for SAFE-03, 1 is the manual bus-off test on the board) |
-| Requirements with at least one test | 20 of 20 |
+| Tests | 94 passed, 16 skipped (15 wait for SAFE-03, 1 is the manual bus-off test on the board) |
+| Requirements with at least one test | 26 of 26 |
 | Static analysis (cppcheck, warnings as errors in the build) | no findings |
 
 **Fault injection campaign.** A test says whether a limit was met once. The campaign injects each fault 30 times at different moments in the ECU's cycle and records every reaction time ([`results/campaign_sil.csv`](results/campaign_sil.csv)).
@@ -148,29 +167,35 @@ Not run yet. [`docs/hil_results.md`](docs/hil_results.md) is the page that will 
 
 ```
 ecu-fault-injection/
-├── requirements/            20 requirements with limits
+├── requirements/            26 requirements with limits
 ├── firmware/
-│   ├── lib/ecu/             The ECU, plain C99
+│   ├── lib/ecu/             The application, plain C99
 │   │   ├── ecu.c            Cyclic task: monitoring, state machine, transmit, diagnostics
 │   │   ├── monitor.c        Timeout, CRC, counter and range check of the command
 │   │   ├── safety.c         INIT, NORMAL, SAFE and the 500 ms rule
 │   │   ├── e2e.c            CRC-8 and alive counter
-│   │   ├── isotp.c          ISO-TP, both directions, with flow control
 │   │   ├── uds.c            UDS server and the fault injection routines
-│   │   └── ecu_port.h       What the ECU needs from its platform
-│   ├── src/main.c           STM32 port: FDCAN, watchdog, reset flags, backup register
-│   └── platformio.ini       Test build and release build
+│   │   └── ecu_port.h       What the application needs from its platform
+│   ├── lib/boot/boot.c      The bootloader, plain C99: start check and update services
+│   ├── lib/common/          ISO-TP and CRC-32, used by both
+│   ├── lib/board/           STM32 hardware: FDCAN, watchdog, reset flags, backup register
+│   ├── src/main.c           Application on the board
+│   ├── src/boot_main.c      Bootloader on the board: flash driver, jump to the application
+│   ├── ld/                  Linker scripts for the two parts of flash
+│   └── platformio.ini       Builds: test, release, bootloader, two application versions
 ├── bench/
 │   ├── base.py              The bench as a test sees it
 │   ├── sil.py               Target: ECU code on the PC, simulated time
 │   ├── hil.py               Target: the board, through python-can
 │   ├── ecu_model.py         Model of watchdog, CPU and CAN controller for the PC target
+│   ├── device_model.py      Model of a whole ECU: bootloader, flash and application
+│   ├── updater.py           The tester side of an update, with its faults
 │   ├── restbus.py           Sends the command, and injects the faults on it
 │   ├── campaign.py          Repeated injection and reaction time statistics
 │   ├── hello.py             First contact with the board
 │   └── virtual_ecu.py       The ECU model on a python-can bus, to test hil.py without a board
-├── tests/                   76 tests, each marked with the requirements it verifies
-├── tools/                   Traceability matrix, figures
+├── tests/                   110 tests, each marked with the requirements it verifies
+├── tools/                   Traceability matrix, figures, check of the image layout
 ├── results/                 Campaign data
 └── docs/                    CAN matrix, wiring, bring-up, measurement, results, defect reports
 ```
@@ -215,8 +240,9 @@ pytest --target hil --virtual-ecu
 - [x] STM32 port: FDCAN, independent watchdog, reset cause, backup register
 - [x] Bench with one interface for simulation and hardware
 - [x] Fault injection from outside (command message) and inside (diagnostic routines, test build only)
-- [x] 76 tests traced to 20 requirements, traceability checked in CI
+- [x] 110 tests traced to 26 requirements, traceability checked in CI
 - [x] Campaign tool with reaction time statistics
+- [x] Bootloader and update over CAN, with interrupted, damaged and refused updates
 - [ ] Alive counter check (SAFE-03), with the 15 tests that wait for it
 - [ ] Run on the board: test suite, campaign, results and the differences to simulation
 - [ ] Defect reports for what the board shows
@@ -229,12 +255,13 @@ pytest --target hil --virtual-ecu
 
 **Later**
 
-- [ ] Update over CAN (UDS download services) with interrupted and corrupted transfers
+- [ ] Two application slots with rollback to the previous version
+- [ ] SecurityAccess and a signature check before programming
 - [ ] The same bench in CANoe, once a license is available
 
 ## Standards referenced
 
-ISO 26262-6 (fault injection as a verification method) · ISO 14229 (UDS) · ISO 15765-2 (ISO-TP) · AUTOSAR E2E Profile 1 (as a model, not implemented to the specification)
+ISO 26262-6 (fault injection as a verification method) · ISO 14229 (UDS, including the download services) · ISO 15765-2 (ISO-TP) · AUTOSAR E2E Profile 1 (as a model, not implemented to the specification)
 
 ## Related
 

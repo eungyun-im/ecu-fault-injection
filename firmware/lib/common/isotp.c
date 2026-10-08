@@ -29,13 +29,13 @@ static void send_flow_control(const isotp_t *link, uint8_t status)
     empty_frame(link, &frame);
     frame.data[0] = (uint8_t)((PCI_FLOW_CONTROL << 4U) | status);
     /* Block size 0 and separation time 0: send everything, as fast as possible. */
-    (void)link->port->can_send(&frame);
+    (void)link->send(&frame);
 }
 
-void isotp_init(isotp_t *link, const ecu_port_t *port, uint32_t rx_id, uint32_t tx_id)
+void isotp_init(isotp_t *link, can_send_fn send, uint32_t rx_id, uint32_t tx_id)
 {
     (void)memset(link, 0, sizeof(*link));
-    link->port = port;
+    link->send = send;
     link->rx_id = rx_id;
     link->tx_id = tx_id;
     link->tx_state = ISOTP_TX_IDLE;
@@ -190,7 +190,7 @@ static void send_first(isotp_t *link, uint32_t now_ms)
     {
         frame.data[0] = (uint8_t)link->tx_length;
         (void)memcpy(&frame.data[1], link->tx_buffer, link->tx_length);
-        if (link->port->can_send(&frame))
+        if (link->send(&frame))
         {
             link->tx_state = ISOTP_TX_IDLE;
         }
@@ -200,7 +200,7 @@ static void send_first(isotp_t *link, uint32_t now_ms)
         frame.data[0] = (uint8_t)((PCI_FIRST << 4U) | ((link->tx_length >> 8U) & 0x0FU));
         frame.data[1] = (uint8_t)(link->tx_length & 0xFFU);
         (void)memcpy(&frame.data[2], link->tx_buffer, FIRST_FRAME_DATA);
-        if (link->port->can_send(&frame))
+        if (link->send(&frame))
         {
             link->tx_position = FIRST_FRAME_DATA;
             link->tx_sequence = 1U;
@@ -222,7 +222,7 @@ static void send_consecutive(isotp_t *link, uint32_t now_ms)
     (void)memcpy(&frame.data[1], &link->tx_buffer[link->tx_position], count);
 
     /* When the frame cannot be queued, the same frame is tried again in the next step. */
-    if (link->port->can_send(&frame))
+    if (link->send(&frame))
     {
         link->tx_position = (uint16_t)(link->tx_position + count);
         link->tx_sequence = (uint8_t)((link->tx_sequence + 1U) & 0x0FU);

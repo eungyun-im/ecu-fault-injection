@@ -159,8 +159,7 @@ def open_bench(args):
     if args.target == "sil":
         from bench.sil import SilBench
 
-        for variant in ecu_lib.VARIANTS:
-            ecu_lib.build(variant)
+        ecu_lib.build_all()
         return SilBench(), lambda: None
     from bench.hil import HilBench
 

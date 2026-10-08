@@ -92,7 +92,7 @@ void ecu_init(const ecu_port_t *port, uint32_t now_ms)
 
     monitor_init(&ecu.monitor, now_ms);
     safety_init(&ecu.safety);
-    isotp_init(&ecu.link, port, CAN_ID_DIAG_REQUEST, CAN_ID_DIAG_RESPONSE);
+    isotp_init(&ecu.link, port->can_send, CAN_ID_DIAG_REQUEST, CAN_ID_DIAG_RESPONSE);
     uds_init(&ecu.uds, now_ms);
 
     load_fault_memory();
@@ -223,6 +223,11 @@ static void run_action(uint32_t now_ms)
         ecu.action = ACTION_NONE;
         if (action == ACTION_RESET)
         {
+            ecu.port->system_reset();
+        }
+        else if (action == ACTION_BOOT)
+        {
+            ecu.port->nv_write(ecu.port->nv_read() | NV_BOOT_REQUEST);
             ecu.port->system_reset();
         }
         else if (action == ACTION_HALT)

@@ -44,6 +44,8 @@ def client_config():
             m.DID_WATCHDOG_RESETS: ">B",
             m.DID_BUS_OFF_COUNT: ">B",
             m.DID_BUILD_INFO: ">B",
+            m.DID_BOOT_VERSION: ">BBB",
+            m.DID_INSTALLED_APPLICATION: ">BBBB",
         },
     )
     return config
@@ -108,6 +110,27 @@ class Bench:
             for frame in frames[seen:]:
                 if frame.can_id == m.STATUS_ID and len(frame.data) == 8:
                     status = m.decode_status(frame)
+                    if predicate(status):
+                        return status
+            seen = len(frames)
+            if self.now_ms - start > timeout_ms:
+                raise AssertionError(f"no {what} within {timeout_ms} ms")
+            self.advance(self.poll_ms)
+
+    def boot_status(self):
+        """The most recent BootStatus, or None. Only a running bootloader sends it."""
+        frames = self.frames_of(m.BOOT_STATUS_ID)
+        return m.decode_boot_status(frames[-1]) if frames else None
+
+    def wait_for_boot(self, predicate, timeout_ms, what="the expected bootloader status"):
+        """Advance until a new BootStatus satisfies predicate. Returns that status."""
+        start = self.now_ms
+        seen = len(self.frames)
+        while True:
+            frames = list(self.frames)
+            for frame in frames[seen:]:
+                if frame.can_id == m.BOOT_STATUS_ID:
+                    status = m.decode_boot_status(frame)
                     if predicate(status):
                         return status
             seen = len(frames)

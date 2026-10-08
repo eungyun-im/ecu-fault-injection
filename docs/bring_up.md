@@ -76,6 +76,11 @@ Commit `results/campaign_hil.csv` and the regenerated figures, and fill in
 Regenerating the figures needs gcc, because the scenario figure is produced by a
 software-in-the-loop run. On Windows, do that step in WSL.
 
+## 7. Bootloader and update
+
+A second set-up, after the steps above work. It replaces what is in flash:
+[update.md](update.md), section "On the board".
+
 ## Other adapters
 
 Any python-can interface works, for example `--can-interface socketcan --can-channel can0`

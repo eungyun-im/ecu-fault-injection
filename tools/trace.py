@@ -42,7 +42,7 @@ def tests():
                 marks = {name for name, _ in pending} | module_marks
                 ids = [i for name, args in pending if name == "requirement" for i in re.findall(r'"([A-Z]+-\d+)"', args or "")]
                 fixtures = function.group(2)
-                if "sil_only" in marks or "release_bench" in fixtures:
+                if "sil_only" in marks or "release_bench" in fixtures or fixtures.strip() == "_libraries":
                     target = "simulation"
                 elif "hil_only" in marks:
                     target = "board, manual" if "manual" in marks else "board"

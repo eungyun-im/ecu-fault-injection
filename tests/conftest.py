@@ -28,6 +28,11 @@ def pytest_addoption(parser):
         action="store_true",
         help="hil only: start the ECU model on a python-can virtual bus instead of using a board",
     )
+    group.addoption(
+        "--bootloader",
+        action="store_true",
+        help="hil only: the board carries the bootloader, run the update tests",
+    )
     group.addoption("--manual", action="store_true", help="run tests that need a hand on the bench")
 
 
@@ -56,8 +61,7 @@ def _libraries(request):
         return False
     if ecu_lib.compiler() is None:
         pytest.skip("gcc not found: the software-in-the-loop target needs it")
-    for variant in ecu_lib.VARIANTS:
-        ecu_lib.build(variant)
+    ecu_lib.build_all()
     return True
 
 
@@ -93,6 +97,26 @@ def bench(request, _libraries):
     from bench.sil import SilBench
 
     return SilBench().prepare()
+
+
+@pytest.fixture
+def update_bench(request, _libraries):
+    """An ECU with a bootloader and no application: the starting point of every update test."""
+    if request.config.getoption("--target") == "hil":
+        if not request.config.getoption("--bootloader") or request.config.getoption("--virtual-ecu"):
+            pytest.skip("update tests on the board need the bootloader build and --bootloader")
+        from bench.updater import Updater
+
+        bench = request.getfixturevalue("_hil")
+        bench.restbus.reset()
+        Updater(bench).erase_application()
+        bench.tester.change_session(1)
+        return bench
+    from bench.sil import SilBench
+
+    bench = SilBench(bootloader=True)
+    bench.advance(1)
+    return bench
 
 
 @pytest.fixture

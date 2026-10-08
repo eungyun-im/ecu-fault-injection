@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 COMMAND_ID = 0x200
 STATUS_ID = 0x210
+BOOT_STATUS_ID = 0x211
 DIAG_REQUEST_ID = 0x7E0
 DIAG_RESPONSE_ID = 0x7E8
 
@@ -40,9 +41,12 @@ DID_RESET_CAUSE = 0x0200
 DID_WATCHDOG_RESETS = 0x0201
 DID_BUS_OFF_COUNT = 0x0202
 DID_BUILD_INFO = 0x0203
+DID_BOOT_VERSION = 0xF180
+DID_INSTALLED_APPLICATION = 0x0210
 
 BUILD_FAULT_INJECTION = 0x01
 BUILD_COUNTER_CHECK = 0x02
+BUILD_BOOTLOADER = 0x04
 
 # Fault injection routines (RoutineControl, test builds only)
 ROUTINE_HALT_CPU = 0xF001
@@ -75,6 +79,26 @@ class Status:
     flags: int
     reset_cause: int
     data: bytes
+
+
+@dataclass(frozen=True)
+class BootStatus:
+    """Decoded BootStatus: what the bootloader reports while it is running."""
+
+    t_ms: float
+    state: int
+    session: int
+    app_valid: bool
+    version: tuple
+
+
+# Bootloader states (BootStatus byte 0)
+BOOT_IDLE, BOOT_ERASING, BOOT_DOWNLOADING, BOOT_TRANSFERRED = range(4)
+
+
+def decode_boot_status(frame):
+    d = frame.data
+    return BootStatus(frame.t_ms, d[0], d[1], bool(d[2]), tuple(d[3:6]))
 
 
 def decode_status(frame):

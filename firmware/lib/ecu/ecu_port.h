@@ -10,12 +10,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef struct
-{
-    uint32_t id;
-    uint8_t dlc;
-    uint8_t data[8];
-} can_frame_t;
+#include "can.h"
 
 #define RESET_CAUSE_UNKNOWN (0U)
 #define RESET_CAUSE_POWER_ON (1U)
@@ -25,8 +20,7 @@ typedef struct
 
 typedef struct
 {
-    /* Queue one frame for transmission. Returns false when the frame could not be queued. */
-    bool (*can_send)(const can_frame_t *frame);
+    can_send_fn can_send;
     /* True while the CAN controller is in the bus-off state. */
     bool (*can_bus_off)(void);
     /* Ask the CAN controller to leave bus-off and rejoin the bus. */

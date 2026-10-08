@@ -2,7 +2,8 @@
  *
  * Normal 11-bit addressing, 8-byte frames padded with 0x00. Handles single
  * frames and segmented messages in both directions, up to ISOTP_BUFFER_SIZE
- * bytes. A longer request is refused with a flow control "overflow" frame. */
+ * bytes. A longer request is refused with a flow control "overflow" frame.
+ * The buffer is sized for one block of a firmware download. */
 
 #ifndef ISOTP_H
 #define ISOTP_H
@@ -10,9 +11,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "ecu_port.h"
+#include "can.h"
 
-#define ISOTP_BUFFER_SIZE (64U)
+#define ISOTP_BUFFER_SIZE (140U)
 #define ISOTP_TIMEOUT_MS (1000U)
 
 typedef enum
@@ -25,7 +26,7 @@ typedef enum
 
 typedef struct
 {
-    const ecu_port_t *port;
+    can_send_fn send;
     uint32_t rx_id;
     uint32_t tx_id;
 
@@ -49,7 +50,7 @@ typedef struct
     isotp_tx_state_t tx_state;
 } isotp_t;
 
-void isotp_init(isotp_t *link, const ecu_port_t *port, uint32_t rx_id, uint32_t tx_id);
+void isotp_init(isotp_t *link, can_send_fn send, uint32_t rx_id, uint32_t tx_id);
 void isotp_on_frame(isotp_t *link, const can_frame_t *frame, uint32_t now_ms);
 void isotp_step(isotp_t *link, uint32_t now_ms);
 
